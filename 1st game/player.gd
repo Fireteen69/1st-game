@@ -1,9 +1,12 @@
 extends Area2D
 @export var speed = 400 #how fast the player will move
 var screen_size
+signal hit
 
-
-
+func start(pos):
+	position = pos
+	show()
+	$CollisionShape2D.set_deferred("disabled", false)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
