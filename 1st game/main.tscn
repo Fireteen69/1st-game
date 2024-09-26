@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bb5p68ricjojt"]
+[gd_scene load_steps=8 format=3 uid="uid://bb5p68ricjojt"]
 
 [ext_resource type="PackedScene" uid="uid://dx0dikfrq3rqs" path="res://player.tscn" id="1_ifqf8"]
 [ext_resource type="Script" path="res://main.gd" id="1_n47em"]
 [ext_resource type="PackedScene" uid="uid://b2t4c0q4n5lsg" path="res://mob.tscn" id="2_ow2wt"]
 [ext_resource type="PackedScene" uid="uid://cpvp4e2mfnjjh" path="res://hud.tscn" id="4_njt4g"]
+[ext_resource type="AudioStream" uid="uid://kwox07yhwnw5" path="res://art/gameover.wav" id="5_5kjfx"]
+[ext_resource type="AudioStream" uid="uid://b0inl36oej8p3" path="res://art/House In a Forest Loop.ogg" id="6_53gx8"]
 
 [sub_resource type="Curve2D" id="Curve2D_32684"]
 _data = {
@@ -15,7 +17,23 @@ point_count = 5
 script = ExtResource("1_n47em")
 mob_scene = ExtResource("2_ow2wt")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [node name="Player" parent="." instance=ExtResource("1_ifqf8")]
+
+[node name="MobPath" type="Path2D" parent="."]
+position = Vector2(240, 450)
+curve = SubResource("Curve2D_32684")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+position = Vector2(-242, -453)
+rotation = 0.010438
 
 [node name="MobTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -28,14 +46,13 @@ wait_time = 2.0
 [node name="StartPosition" type="Marker2D" parent="."]
 position = Vector2(240, 450)
 
-[node name="MobPath" type="Path2D" parent="StartPosition"]
-curve = SubResource("Curve2D_32684")
-
-[node name="MobSpawnLocation" type="PathFollow2D" parent="StartPosition/MobPath"]
-position = Vector2(-242, -453)
-rotation = 0.010438
-
 [node name="HUD" parent="." instance=ExtResource("4_njt4g")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_5kjfx")
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_53gx8")
 
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
