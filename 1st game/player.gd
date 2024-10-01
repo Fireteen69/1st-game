@@ -10,7 +10,6 @@ func start(pos):
 func _ready() -> void:
 	screen_size = get_viewport_rect().size
 	#screen_size = get_viewport_rect().size
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	var velocity = Vector2.ZERO
@@ -38,11 +37,6 @@ func _process(delta: float) -> void:
 	elif velocity.y != 0:
 		$AnimatedSprite2D.animation = "up"
 		$AnimatedSprite2D.flip_v = velocity.y > 0
-
-
-
-
-
 func _on_body_entered(body: Node2D)-> void:
 	hide()
 	hit.emit()
